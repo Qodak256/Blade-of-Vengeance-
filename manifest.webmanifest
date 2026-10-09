@@ -1,13 +1,13 @@
 {
   "name": "Blade of Vengeance",
   "short_name": "Blade Vengeance",
-  "description": "A tactical fantasy strategy game",
+  "description": "An anime-style 3D tactical fantasy strategy game",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0b1017",
-  "theme_color": "#10151c",
+  "background_color": "#0a0f24",
+  "theme_color": "#1a1850",
   "icons": [
     {
       "src": "icon.svg",

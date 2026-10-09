@@ -1,33 +1,37 @@
-# Blade of Vengeance
+# Blade of Vengeance · Prototype 0.2
 
-A mobile-first, browser-playable tactical strategy game prototype with a pseudo-3D/isometric battlefield, touch controls, turn-based enemies, vitality, renown, and a PWA install/offline shell.
+A mobile-first 3D tactical fantasy strategy game built with Three.js. Includes an isometric 3D battlefield, animated low-poly warriors, enemy turns, path-aware movement up to two tiles, Strike, Whirlwind, Blade Dash, vitality, renown and a PWA shell.
 
 ## Run locally
-Open `index.html` in a modern browser. Gameplay works without a server, but PWA installation and service-worker offline caching require HTTPS or localhost.
+Because the game imports Three.js as an ES module, serve this folder from localhost rather than opening `index.html` directly. For example, if Python is installed:
+`python -m http.server 8000`
+Then open `http://localhost:8000`.
 
 ## Publish online
-1. Create a GitHub repository and upload every file in this folder.
-2. On GitHub, open **Settings → Pages**.
-3. Choose **Deploy from a branch**, select `main` and `/ (root)`, then Save.
-4. Wait for the HTTPS site URL to appear in Pages settings.
-5. Open the URL on your phone and play. For updates, upload changed files and allow the deployment to finish.
+1. Create a GitHub repository and upload all files from this folder.
+2. In repository **Settings → Pages**, select **Deploy from a branch**, choose `main` and `/(root)`, then Save.
+3. Wait for GitHub Pages to publish the HTTPS URL.
+4. Open the URL on your phone and play.
 
-Alternative: drag the project folder into a static hosting service such as Netlify or Cloudflare Pages.
+Alternative static hosts include Netlify or Cloudflare Pages.
 
 ## Add to home screen
-- **iPhone/iPad (Safari):** open the published HTTPS URL → Share → Add to Home Screen → Add.
-- **Android (Chrome):** open the HTTPS URL → browser menu → Install app or Add to Home screen.
-- The service worker caches the game shell after the first online visit, allowing the shell to load offline on supported browsers.
+- **iPhone/iPad:** open the HTTPS URL in Safari → Share → Add to Home Screen.
+- **Android:** open the HTTPS URL in Chrome → menu → Install app or Add to Home screen.
+The service worker attempts to cache the game shell and the Three.js module for subsequent offline launches. Offline behavior depends on the first successful online load and browser cache policies.
 
-## Current prototype controls
-- Tap a highlighted adjacent tile to move.
-- Tap an adjacent enemy to attack.
-- **Rally** restores up to 18 vitality and uses your action.
-- **Wait** ends the turn so enemies attack or advance.
-- Defeat all enemies to win. The R key resets and Space ends a turn on desktop.
+## Controls
+- Tap a highlighted ground tile to move up to two tiles.
+- Tap an enemy or use Strike to attack an adjacent foe.
+- **Whirlwind:** 22 damage to every adjacent enemy.
+- **Blade Dash:** leap beside the nearest enemy within three tiles and deal 38 damage.
+- **Rally:** recover up to 18 vitality (uses your action).
+- **End Turn:** enemies attack or advance.
+- Defeat all enemies to win. Press R to restart on desktop.
 
-## Roadmap
-1. Replace pseudo-3D canvas figures with a proper 3D scene (e.g. Three.js) and animated models.
-2. Add map selection, equipment, campaign saves, sound and accessibility settings.
-3. Add online accounts and multiplayer only after the core game is balanced.
-4. Keep the first release free; consider monetization only if desired later.
+## Current limits / roadmap
+This is a proper lightweight 3D scene using primitive low-poly characters, not final production art. Next improvements: polished 3D models/animations, terrain pathfinding and cover rules, ability cooldowns, sound, campaign progression, save slots, accessibility, and then online multiplayer. No monetization is enabled.
+
+
+## v0.3 Anime Edition
+Toon shading with ink outlines, ruined-castle backdrop, glowing rune circle, slash effects and fireflies. Gameplay unchanged. Service worker cache bumped to v3.

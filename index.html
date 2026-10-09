@@ -1,203 +1,223 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#10151c">
-<meta name="description" content="Blade of Vengeance: a tactical fantasy strategy game.">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icon.svg" type="image/svg+xml">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#1a1850"><meta name="description" content="Blade of Vengeance: a 3D tactical fantasy strategy game.">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml">
 <title>Blade of Vengeance</title>
 <style>
-:root{--bg:#0b1017;--panel:#151d28;--line:#344252;--gold:#e8b85b;--text:#edf3fa;--muted:#9aabbd;--red:#f06b67;--green:#79d49a}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif;overscroll-behavior:none}
-body{display:flex;justify-content:center;align-items:stretch;background:radial-gradient(ellipse at 50% 0%,#202c3b 0,#0b1017 68%)}
-.app{width:min(100%,1000px);min-height:100dvh;display:flex;flex-direction:column;padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom);gap:10px}
-header{display:flex;align-items:center;justify-content:space-between;padding:10px 2px 2px;gap:8px}
-.brand{display:flex;align-items:center;gap:10px}.mark{width:42px;height:42px;border:1px solid #7e6337;border-radius:12px;background:linear-gradient(145deg,#283747,#10151c);display:grid;place-items:center;font-size:24px;box-shadow:0 5px 20px #0006}
-h1{font-size:clamp(17px,4.5vw,23px);letter-spacing:.05em;margin:0}.sub{font-size:11px;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;margin-top:2px}
-.pill{border:1px solid var(--line);border-radius:99px;padding:7px 10px;color:var(--gold);font-size:12px;white-space:nowrap}
-.hud{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
-.stat{background:#151d28d9;border:1px solid var(--line);border-radius:12px;padding:9px 10px;min-width:0}.stat label{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.12em}.stat strong{font-size:17px;display:block;margin-top:2px}
-.hpbar{height:4px;border-radius:9px;background:#3d252a;margin-top:5px;overflow:hidden}.hpbar span{display:block;height:100%;background:linear-gradient(90deg,#c64b4b,#ff9a69);width:100%;transition:width .2s}
-.board-wrap{position:relative;flex:1;min-height:280px;max-height:57dvh;background:linear-gradient(#182330,#101820);border:1px solid #394655;border-radius:18px;overflow:hidden;box-shadow:0 12px 40px #0005}
-canvas{width:100%;height:100%;display:block;touch-action:manipulation}
-.legend{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;pointer-events:none;gap:6px}.legend span{font-size:10px;color:#d8e3ed;background:#0a1019b8;border:1px solid #ffffff16;border-radius:7px;padding:5px 7px;backdrop-filter:blur(4px)}
-.toast{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);padding:8px 12px;background:#080d14e8;border:1px solid #536171;border-radius:9px;font-size:12px;white-space:nowrap;max-width:90%;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
-.bottom{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:stretch}
-.info{border:1px solid var(--line);border-radius:13px;background:var(--panel);padding:10px 12px;min-width:0}.info strong{display:block;font-size:13px}.info p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.35}
-.actions{display:grid;grid-template-columns:repeat(2,minmax(74px,1fr));gap:7px}
-button{font:inherit;color:var(--text);border:1px solid #4a5a6b;background:linear-gradient(#263445,#18222e);border-radius:12px;padding:10px 11px;font-weight:650;font-size:12px;min-height:43px;cursor:pointer;touch-action:manipulation}
-button:active{transform:translateY(1px);filter:brightness(1.2)}button.primary{border-color:#a67c38;color:#ffe2a1;background:linear-gradient(#624a28,#332719)}button:disabled{opacity:.35;cursor:not-allowed}
+:root{--bg:#0a0f24;--panel:#141a3a;--line:#4b5a9e;--gold:#ffd36b;--text:#f3f0ff;--muted:#a9b2e6;--red:#ff6f8a;--green:#7dffb4}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif;overscroll-behavior:none}body{display:flex;justify-content:center;background:radial-gradient(ellipse at 50% 0%,#38327f 0,#0a0f24 70%)}
+.app{width:min(100%,1000px);min-height:100dvh;display:flex;flex-direction:column;padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom);gap:9px}
+header{display:flex;align-items:center;justify-content:space-between;padding:9px 2px 1px;gap:8px}.brand{display:flex;align-items:center;gap:10px}.mark{width:42px;height:42px;border:1px solid #7e6337;border-radius:12px;background:linear-gradient(145deg,#283747,#10151c);display:grid;place-items:center;font-size:24px;box-shadow:0 5px 20px #0006}h1{font-size:clamp(16px,4.5vw,23px);letter-spacing:.045em;margin:0}.sub{font-size:10px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-top:2px}.pill{border:1px solid var(--line);border-radius:99px;padding:7px 10px;color:var(--gold);font-size:11px;white-space:nowrap}
+.hud{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.stat{background:#151d28e8;border:1px solid var(--line);border-radius:12px;padding:8px 10px;min-width:0}.stat label{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.12em}.stat strong{font-size:16px;display:block;margin-top:2px}.hpbar{height:4px;border-radius:9px;background:#3d252a;margin-top:5px;overflow:hidden}.hpbar span{display:block;height:100%;background:linear-gradient(90deg,#c64b4b,#ff9a69);width:100%;transition:width .2s}
+.board-wrap{position:relative;flex:1;min-height:300px;max-height:55dvh;background:linear-gradient(#2b2a78,#1c2a52);border:1px solid #394655;border-radius:18px;overflow:hidden;box-shadow:0 12px 40px #0005}#scene{width:100%;height:100%;display:block;touch-action:pan-y}
+.legend{position:absolute;top:9px;left:9px;right:9px;display:flex;justify-content:space-between;pointer-events:none;gap:5px}.legend span{font-size:10px;color:#d8e3ed;background:#0a1019c9;border:1px solid #ffffff16;border-radius:7px;padding:5px 7px;backdrop-filter:blur(4px)}.toast{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);padding:8px 12px;background:#080d14e8;border:1px solid #536171;border-radius:9px;font-size:11px;white-space:nowrap;max-width:94%;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+.bottom{display:grid;grid-template-columns:1fr;gap:8px}.info{border:1px solid var(--line);border-radius:13px;background:var(--panel);padding:9px 12px;min-width:0}.info strong{display:block;font-size:13px}.info p{margin:3px 0 0;color:var(--muted);font-size:11px;line-height:1.35}.actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+button{font:inherit;color:var(--text);border:1px solid #4a5a6b;background:linear-gradient(#263445,#18222e);border-radius:11px;padding:9px 6px;font-weight:650;font-size:11px;min-height:42px;cursor:pointer;touch-action:manipulation}button:active{transform:translateY(1px);filter:brightness(1.2)}button.primary{border-color:#a67c38;color:#ffe2a1;background:linear-gradient(#624a28,#332719)}button.skill{border-color:#6a5b91;color:#e2d7ff;background:linear-gradient(#393253,#201c32)}button:disabled{opacity:.35;cursor:not-allowed}
 .footer{display:flex;justify-content:space-between;align-items:center;gap:8px;color:#7f91a4;font-size:10px;padding:0 3px 5px}.footer button{padding:6px 9px;min-height:30px;font-size:10px}
-.overlay{position:absolute;inset:0;background:#080d14df;display:none;place-items:center;text-align:center;padding:24px;backdrop-filter:blur(5px)}.overlay.show{display:grid}.modal{max-width:360px}.modal h2{font-size:27px;margin:8px 0;color:var(--gold)}.modal p{color:#c0ccda;line-height:1.5;font-size:14px}.modal button{margin:4px}
-@media(min-width:700px){.app{padding-left:20px;padding-right:20px}.board-wrap{max-height:60dvh}.stat{padding:12px 14px}.stat label{font-size:11px}.stat strong{font-size:20px}}
-@media(max-height:650px){.board-wrap{min-height:230px;max-height:48dvh}.app{gap:7px}.stat{padding:6px 9px}.info{padding:7px 10px}.actions button{min-height:37px;padding:7px}}
+.overlay{position:absolute;inset:0;background:#080d14df;display:none;place-items:center;text-align:center;padding:24px;backdrop-filter:blur(5px);z-index:4}.overlay.show{display:grid}.modal{max-width:360px}.modal h2{font-size:27px;margin:8px 0;color:var(--gold)}.modal p{color:#c0ccda;line-height:1.5;font-size:14px}.modal button{margin:4px}
+@media(min-width:700px){.app{padding-left:20px;padding-right:20px}.board-wrap{max-height:58dvh}.stat{padding:11px 14px}.stat label{font-size:11px}.stat strong{font-size:20px}.bottom{grid-template-columns:1fr auto;align-items:stretch}.actions{min-width:360px}.actions button{padding:10px 12px;font-size:12px}}
+@media(max-height:680px){.board-wrap{min-height:230px;max-height:47dvh}.app{gap:6px}.stat{padding:6px 9px}.info{padding:6px 10px}.actions button{min-height:35px;padding:6px 3px}}
+h1{font-family:"Trebuchet MS","Avenir Next",system-ui,sans-serif;font-weight:900;font-style:italic;text-shadow:2px 2px 0 #3b2a8f,0 0 18px #7d6bff88}
+.mark{background:linear-gradient(145deg,#7d6bff,#2a2f78);border-color:#ffd36b}
+button{border-width:2px;border-radius:14px;box-shadow:0 3px 0 #0a0f24;font-weight:800}
+.stat,.info{border-width:2px;border-radius:16px}
+.board-wrap{border:3px solid #ffd36b66;box-shadow:0 0 0 2px #0a0f24,0 14px 44px #2a1f7a77}
 </style>
 </head>
-<body>
-<div class="app">
-<header><div class="brand"><div class="mark">⚔</div><div><h1>BLADE OF VENGEANCE</h1><div class="sub">Tactical frontier · Prototype 0.1</div></div></div><div class="pill" id="turnPill">YOUR TURN</div></header>
+<body><div class="app">
+<header><div class="brand"><div class="mark">⚔</div><div><h1>BLADE OF VENGEANCE</h1><div class="sub">TACTICAL FRONTIER · ANIME EDITION 0.3</div></div></div><div class="pill" id="turnPill">YOUR TURN</div></header>
 <section class="hud">
- <div class="stat"><label>Vitality</label><strong id="hpText">100 / 100</strong><div class="hpbar"><span id="hpBar"></span></div></div>
- <div class="stat"><label>Renown</label><strong id="scoreText">0</strong></div>
- <div class="stat"><label>Threats left</label><strong id="enemyText">3</strong></div>
+<div class="stat"><label>Vitality</label><strong id="hpText">100 / 100</strong><div class="hpbar"><span id="hpBar"></span></div></div>
+<div class="stat"><label>Renown</label><strong id="scoreText">0</strong></div>
+<div class="stat"><label>Threats left</label><strong id="enemyText">3</strong></div>
 </section>
 <main class="board-wrap" id="boardWrap">
- <canvas id="game" aria-label="Tactical battlefield. Tap a highlighted tile to move, or tap an enemy to attack."></canvas>
- <div class="legend"><span>✦ Tap tiles to move</span><span>☠ Tap enemy to strike</span></div>
- <div class="toast" id="toast">Choose your move, warrior.</div>
- <div class="overlay" id="overlay"><div class="modal"><div style="font-size:42px" id="endIcon">⚔️</div><h2 id="endTitle">Victory</h2><p id="endText">The frontier is yours.</p><button class="primary" id="restart">PLAY AGAIN</button></div></div>
+<canvas id="scene" aria-label="3D tactical battlefield. Tap highlighted ground to move and tap enemies to attack."></canvas>
+<div class="legend"><span>✦ Move up to 2 tiles</span><span>☠ Select foe to strike</span></div><div class="toast" id="toast">Choose your move, warrior.</div>
+<div class="overlay" id="overlay"><div class="modal"><div style="font-size:42px" id="endIcon">⚔️</div><h2 id="endTitle">Victory</h2><p id="endText">The frontier is yours.</p><button class="primary" id="restart">PLAY AGAIN</button></div></div>
 </main>
-<section class="bottom">
- <div class="info"><strong id="selectionTitle">The Oathbound</strong><p id="selectionText">You are the last blade of a fallen order. Defeat every raider to reclaim the frontier. Move one tile, then strike an adjacent foe.</p></div>
- <div class="actions"><button id="waitBtn">⏳ Wait</button><button class="primary" id="healBtn">✚ Rally</button></div>
-</section>
-<div class="footer"><span>Prototype: turn-based tactical combat</span><button id="installBtn" hidden>＋ Add to Home Screen</button><button id="helpBtn">HOW TO PLAY</button></div>
+<section class="bottom"><div class="info"><strong id="selectionTitle">The Oathbound</strong><p id="selectionText">Move up to two tiles, then use a sword ability or strike an adjacent foe. Defeat all three raiders.</p></div>
+<div class="actions"><button id="attackBtn">⚔ Strike</button><button class="skill" id="whirlBtn">✧ Whirlwind</button><button class="skill" id="dashBtn">➤ Blade Dash</button><button class="primary" id="waitBtn">⏳ End Turn</button></div></section>
+<div class="footer"><span>3D scene · Animated units · Tactical abilities</span><button id="installBtn" hidden>＋ Add to Home Screen</button><button id="helpBtn">HOW TO PLAY</button></div>
 </div>
-<script>
-(() => {
-const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
-const $=id=>document.getElementById(id);
-const W=9,H=9;
-let hero,enemies,obstacles,turn,score,selected,gameOver,toastTimer,cellW,cellH,originX,originY,scale=1,moveUsed,actionUsed,installPrompt;
-const dirs=[[1,0],[-1,0],[0,1],[0,-1]];
-function reset(){
- hero={x:4,y:7,hp:100,max:100,atk:34,armor:4}; enemies=[
- {x:2,y:2,hp:48,max:48,atk:13,name:'Ash Raider',kind:0},
- {x:6,y:2,hp:48,max:48,atk:13,name:'Ash Raider',kind:0},
- {x:4,y:4,hp:68,max:68,atk:17,name:'Iron Warden',kind:1}
- ]; obstacles=new Set(['1,4','2,4','6,5','7,5','3,6','5,6','3,2','5,3']);
- turn=1;score=0;selected=null;gameOver=false;moveUsed=false;actionUsed=false;
- $('overlay').classList.remove('show');say('Choose your move, warrior.');updateHud();resize();draw();updateInfo();
-}
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js';
+const $=id=>document.getElementById(id), canvas=$('scene'), wrap=$('boardWrap');
+const N=9, HALF=(N-1)/2;
+let scene,camera,renderer,raycaster,pointer,clock,hero,enemies=[],obstacles=[],tiles=[],moveMarks=[],fx=[],turn=1,score=0,gameOver=false,moveUsed=false,actionUsed=false,selectedEnemy=null,toastTimer,animating=false,frame=0;
+const group=new THREE.Group(); const tileMap=new Map();
+let aura,flies;
+const toonGrad=(()=>{const d=new Uint8Array([80,80,80,255,150,150,150,255,215,215,215,255,255,255,255,255]);const t=new THREE.DataTexture(d,4,1,THREE.RGBAFormat);t.minFilter=t.magFilter=THREE.NearestFilter;t.needsUpdate=true;return t})();
+const OL=new THREE.MeshBasicMaterial({color:'#0a0d24',side:THREE.BackSide});
+const mat=(color)=>new THREE.MeshToonMaterial({color,gradientMap:toonGrad});
+function outline(m,k=1.09){const o=new THREE.Mesh(m.geometry,OL);o.scale.setScalar(k);o.userData.ol=true;m.add(o)}
+function skyTex(){const c=document.createElement('canvas');c.width=2;c.height=256;const g=c.getContext('2d'),gr=g.createLinearGradient(0,0,0,256);gr.addColorStop(0,'#2b2a78');gr.addColorStop(.55,'#6a4fb3');gr.addColorStop(1,'#f0a6b8');g.fillStyle=gr;g.fillRect(0,0,2,256);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
+const mats={grass:[mat('#4f8a62'),mat('#447a56')],edge:mat('#24402f'),gold:mat('#ffd36b'),hero:mat('#f2f0ff'),blue:mat('#5b6fd6'),red:mat('#c2475a'),iron:mat('#8a72c0'),skin:mat('#ffd9bd'),blade:mat('#e9fbff'),dark:mat('#2a2347'),stone:mat('#8c9a92'),glow:mat('#8e73df'),wood:mat('#6b4a3a')};
 function say(s){$('toast').textContent=s;clearTimeout(toastTimer);toastTimer=setTimeout(()=>{},1800)}
-function updateHud(){$('hpText').textContent=`${hero.hp} / ${hero.max}`;$('hpBar').style.width=`${100*hero.hp/hero.max}%`;$('scoreText').textContent=score;$('enemyText').textContent=enemies.length;$('turnPill').textContent=gameOver?'BATTLE ENDED':`YOUR TURN · ${turn}`}
-function updateInfo(title,txt){$('selectionTitle').textContent=title||'The Oathbound';$('selectionText').textContent=txt||'You are the last blade of a fallen order. Defeat every raider to reclaim the frontier. Move one tile, then strike an adjacent foe.'}
-function resize(){
- const r=canvas.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);
- canvas.width=Math.max(1,Math.floor(r.width*dpr));canvas.height=Math.max(1,Math.floor(r.height*dpr));ctx.setTransform(dpr,0,0,dpr,0,0);
- const cw=r.width,ch=r.height;cellW=Math.min((cw-28)/(W+0.6),(ch-25)/(H*.65+1));cellH=cellW*.58;
- originX=(cw-W*cellW)/2;originY=Math.max(28,(ch-H*cellH)/2+cellH*.3);scale=dpr;draw();
-}
-function tileCenter(x,y){return {x:originX+(x+.5)*cellW,y:originY+(y+.5)*cellH};}
-function project(x,y,z=0){const p=tileCenter(x,y);return {x:p.x,y:p.y-z};}
-function diamond(x,y,w,h,fill,stroke){ctx.beginPath();ctx.moveTo(x,y-h/2);ctx.lineTo(x+w/2,y);ctx.lineTo(x,y+h/2);ctx.lineTo(x-w/2,y);ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke();}}
-function draw(){
- if(!ctx||!cellW)return;
- const r=canvas.getBoundingClientRect(),cw=r.width,ch=r.height;
- ctx.clearRect(0,0,cw,ch);
- const sky=ctx.createLinearGradient(0,0,0,ch);sky.addColorStop(0,'#1b2a39');sky.addColorStop(1,'#0e171f');ctx.fillStyle=sky;ctx.fillRect(0,0,cw,ch);
- // distant silhouettes
- for(let i=0;i<9;i++){let x=i*cw/7-25;ctx.fillStyle=i%2?'#182633':'#202d38';ctx.beginPath();ctx.moveTo(x,ch*.30);ctx.lineTo(x+35,ch*.12+(i%3)*9);ctx.lineTo(x+72,ch*.30);ctx.fill()}
- // board in pseudo-isometric perspective
- for(let y=0;y<H;y++)for(let x=0;x<W;x++){
-  const p=tileCenter(x,y),alt=(x+y)%2===0;
-  diamond(p.x,p.y,cellW*.98,cellH*.98,alt?'#263d3c':'#213634','#3a5550');
-  if((x*7+y*3)%11===0){ctx.fillStyle='#476052';ctx.globalAlpha=.5;ctx.beginPath();ctx.arc(p.x-cellW*.15,p.y,2,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1}
-  if(obstacles.has(`${x},${y}`)){
-   ctx.fillStyle='#11191d';ctx.beginPath();ctx.moveTo(p.x-cellW*.2,p.y);ctx.lineTo(p.x-cellW*.08,p.y-cellH*.38);ctx.lineTo(p.x+cellW*.2,p.y-cellH*.2);ctx.lineTo(p.x+cellW*.23,p.y+cellH*.02);ctx.closePath();ctx.fill();
-   ctx.strokeStyle='#6b7b76';ctx.stroke();
-  }
+function pos(x,z,y=0){return new THREE.Vector3(x-HALF,y,z-HALF)}
+function init3D(){
+ scene=new THREE.Scene();scene.background=skyTex();scene.fog=new THREE.Fog('#3a3380',16,34);
+ camera=new THREE.PerspectiveCamera(42,1,.1,100);camera.position.set(7.4,10.7,11.8);camera.lookAt(0,0,0);
+ renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.7));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;
+ scene.add(new THREE.HemisphereLight('#b9d7ee','#253126',2.0));
+ const sun=new THREE.DirectionalLight('#ffe0aa',3.1);sun.position.set(-5,11,7);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-9;sun.shadow.camera.right=9;sun.shadow.camera.top=9;sun.shadow.camera.bottom=-9;scene.add(sun);
+ const fill=new THREE.DirectionalLight('#7298e5',1.1);fill.position.set(7,5,-5);scene.add(fill);
+ const ground=new THREE.Mesh(new THREE.PlaneGeometry(25,25),mat('#1c2a52'));ground.rotation.x=-Math.PI/2;ground.position.y=-.22;ground.receiveShadow=true;scene.add(ground);
+ const board=new THREE.Group();scene.add(board);
+ for(let z=0;z<N;z++)for(let x=0;x<N;x++){
+  const tile=new THREE.Mesh(new THREE.BoxGeometry(.96,.16,.96),mats.grass[(x+z)%2]);tile.position.set(x-HALF,-.1,z-HALF);tile.receiveShadow=true;tile.castShadow=true;tile.userData={type:'tile',x,z};board.add(tile);tiles.push(tile);tileMap.set(`${x},${z}`,tile);
+  // small ground stones/tufts
+  if((x*7+z*3)%13===0){const peb=new THREE.Mesh(new THREE.DodecahedronGeometry(.08,0),mat('#536454'));peb.position.set(x-HALF,-.005,z-HALF);peb.scale.set(1,.3,.7);board.add(peb)}
  }
- // valid move markers
- if(!gameOver&&!moveUsed)for(const [dx,dy] of dirs){let x=hero.x+dx,y=hero.y+dy;if(inside(x,y)&&!blocked(x,y)){let p=tileCenter(x,y);diamond(p.x,p.y,cellW*.65,cellH*.65,'#d7b05b30','#e9c779')}}
- // units draw sorted by y
- const units=[{...hero,isHero:true},...enemies].sort((a,b)=>a.y-b.y);
- for(const u of units)drawUnit(u);
- // grid vignette
- const v=ctx.createRadialGradient(cw/2,ch*.5,Math.min(cw,ch)*.15,cw/2,ch*.5,Math.max(cw,ch)*.75);v.addColorStop(0,'#0000');v.addColorStop(1,'#05090e77');ctx.fillStyle=v;ctx.fillRect(0,0,cw,ch);
+ // boundary plinth
+ const plinth=new THREE.Mesh(new THREE.BoxGeometry(9.35,.28,9.35),mat('#202d32'));plinth.position.y=-.27;plinth.receiveShadow=true;board.add(plinth);board.position.y=0;
+ // ruins, stones and broken pillars
+ [[-3.15,-1.2],[-2.25,-1.2],[2.25,1.25],[3.15,1.25],[-.85,2.2],[.85,-2.8]].forEach(([x,z],i)=>{const stone=new THREE.Mesh(new THREE.DodecahedronGeometry(i%2?.48:.38,0),mats.stone);stone.position.set(x,.15,z);stone.scale.set(1,.8,1.1);stone.castShadow=true;stone.receiveShadow=true;stone.userData={type:'obstacle'};outline(stone,1.1);scene.add(stone);obstacles.push({x:Math.round(x+HALF),z:Math.round(z+HALF)})});
+ // ruins decoration outside grid
+ for(let i=0;i<7;i++){const p=new THREE.Mesh(new THREE.ConeGeometry(.45,.9,5),mat(i%2?'#273a40':'#34474b'));p.position.set(-5.7+i*1.9,-.1,-5.9-(i%2)*.4);p.rotation.z=.15;p.castShadow=true;scene.add(p)}
+ addDecor();raycaster=new THREE.Raycaster();pointer=new THREE.Vector2();clock=new THREE.Clock();
+ resize();window.addEventListener('resize',resize);canvas.addEventListener('pointerup',onPointer);animate();
 }
-function inside(x,y){return x>=0&&y>=0&&x<W&&y<H}
-function blocked(x,y){return obstacles.has(`${x},${y}`)|| (hero.x===x&&hero.y===y)||enemies.some(e=>e.x===x&&e.y===y)}
-function drawUnit(u){
- const p=project(u.x,u.y,cellH*.4),heroUnit=!!u.isHero;
- // shadow
- ctx.fillStyle='#05090b88';ctx.beginPath();ctx.ellipse(p.x,p.y+cellH*.18,cellW*.22,cellH*.16,0,0,Math.PI*2);ctx.fill();
- // ground ring
- ctx.strokeStyle=heroUnit?'#f4d27a':'#f17d69';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(p.x,p.y+cellH*.08,cellW*.22,cellH*.13,0,0,Math.PI*2);ctx.stroke();
- // body / 3d-ish armor
- const s=cellW*.20,top=p.y-cellH*.42;
- ctx.fillStyle=heroUnit?'#d9e0e3':u.kind===1?'#b2b7c0':'#7c5550';
- ctx.beginPath();ctx.moveTo(p.x-s*.65,top+cellH*.2);ctx.lineTo(p.x-s*.4,top);ctx.lineTo(p.x+s*.35,top);ctx.lineTo(p.x+s*.68,top+cellH*.22);ctx.lineTo(p.x+s*.4,top+cellH*.48);ctx.lineTo(p.x-s*.4,top+cellH*.48);ctx.closePath();ctx.fill();
- ctx.fillStyle=heroUnit?'#667f91':u.kind===1?'#555f70':'#9b6255';ctx.beginPath();ctx.moveTo(p.x-s*.4,top);ctx.lineTo(p.x+s*.35,top);ctx.lineTo(p.x+s*.68,top+cellH*.22);ctx.lineTo(p.x,top+cellH*.31);ctx.closePath();ctx.fill();
- // head and crest
- ctx.fillStyle=heroUnit?'#e9c8a1':'#c18b72';ctx.beginPath();ctx.ellipse(p.x,top-cellH*.06,s*.42,cellH*.12,0,0,Math.PI*2);ctx.fill();
- ctx.strokeStyle=heroUnit?'#f3d17b':'#d3d6d9';ctx.lineWidth=Math.max(2,cellW*.035);ctx.beginPath();ctx.moveTo(p.x+s*.48,top+cellH*.12);ctx.lineTo(p.x+s*1.15,top+cellH*.36);ctx.stroke();
- if(!heroUnit){
-   const bw=cellW*.47,bh=4,by=top-cellH*.25;ctx.fillStyle='#421f25';ctx.fillRect(p.x-bw/2,by,bw,bh);ctx.fillStyle='#e75e5e';ctx.fillRect(p.x-bw/2,by,bw*Math.max(0,u.hp/u.max),bh);
- } else {
-   ctx.fillStyle='#e9c779';ctx.font=`bold ${Math.max(9,cellW*.22)}px system-ui`;ctx.textAlign='center';ctx.fillText('YOU',p.x,top-cellH*.29);
- }
+function resize(){if(!renderer||!camera)return;const r=wrap.getBoundingClientRect();renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix()}
+function createWarrior(isHero,kind=0){
+ const root=new THREE.Group(),body=new THREE.Group();root.add(body);root.userData={isHero,kind,body,phase:Math.random()*6};
+ const armor=isHero?mats.blue:(kind===1?mats.iron:mats.red);
+ const torso=new THREE.Mesh(new THREE.BoxGeometry(.42,.56,.28),armor);torso.position.y=.88;torso.castShadow=true;body.add(torso);
+ const chest=new THREE.Mesh(new THREE.BoxGeometry(.29,.26,.305),isHero?mats.hero:mat('#c0a08b'));chest.position.set(0,.95,.01);chest.castShadow=true;body.add(chest);
+ const head=new THREE.Mesh(new THREE.SphereGeometry(.17,12,10),mats.skin);head.position.y=1.3;head.castShadow=true;body.add(head);
+ const helm=new THREE.Mesh(new THREE.ConeGeometry(.19,.28,5),isHero?mats.gold:(kind===1?mats.iron:mats.dark));helm.position.y=1.47;helm.rotation.y=.2;helm.castShadow=true;body.add(helm);
+ // shoulder armor
+ for(const side of [-1,1]){const sh=new THREE.Mesh(new THREE.SphereGeometry(.15,8,7),armor);sh.position.set(side*.29,1.06,0);sh.castShadow=true;body.add(sh);
+ const leg=new THREE.Mesh(new THREE.BoxGeometry(.15,.42,.17),isHero?mats.dark:mats.red);leg.position.set(side*.13,.32,0);leg.castShadow=true;body.add(leg)}
+ // sword, pivoted for striking animation
+ const arm=new THREE.Group();arm.position.set(.29,1.02,.02);body.add(arm);
+ const upper=new THREE.Mesh(new THREE.BoxGeometry(.13,.34,.14),armor);upper.position.y=-.1;upper.castShadow=true;arm.add(upper);
+ const sword=new THREE.Group();sword.position.set(.02,-.29,.02);arm.add(sword);
+ const blade=new THREE.Mesh(new THREE.BoxGeometry(.075,.62,.045),mats.blade);blade.position.y=-.34;blade.castShadow=true;sword.add(blade);
+ const guard=new THREE.Mesh(new THREE.BoxGeometry(.24,.055,.09),mats.gold);guard.position.y=-.05;sword.add(guard);
+ const hilt=new THREE.Mesh(new THREE.CylinderGeometry(.035,.035,.18,8),mats.wood);hilt.position.y=.08;sword.add(hilt);
+ root.userData.arm=arm;root.userData.sword=sword;
+ const ring=new THREE.Mesh(new THREE.TorusGeometry(.32,.025,6,24),isHero?mats.gold:mat('#db675e'));ring.rotation.x=Math.PI/2;ring.position.y=.015;root.add(ring);root.userData.ring=ring;
+ const hpGroup=new THREE.Group();const back=new THREE.Mesh(new THREE.PlaneGeometry(.7,.09),new THREE.MeshBasicMaterial({color:'#2a1030'}));back.position.y=1.85;hpGroup.add(back);const bar=new THREE.Mesh(new THREE.PlaneGeometry(.66,.055),new THREE.MeshBasicMaterial({color:isHero?'#7dffb4':'#ff6f8a'}));bar.position.set(0,1.85,.006);hpGroup.add(bar);root.add(hpGroup);root.userData.hpBar=bar;
+ const eyeM=new THREE.MeshBasicMaterial({color:isHero?'#9ffcff':'#ff4d6d'});
+ for(const sx of [-1,1]){const e=new THREE.Mesh(new THREE.BoxGeometry(.06,.035,.02),eyeM);e.position.set(sx*.07,1.31,.165);e.userData.ol=true;body.add(e)}
+ if(isHero){const hm=mat('#f0e9ff');for(const hx of [-.1,0,.1]){const h=new THREE.Mesh(new THREE.ConeGeometry(.07,.3,4),hm);h.position.set(hx,1.4,-.14);h.rotation.x=-.9;body.add(h)}
+  const cape=new THREE.Mesh(new THREE.BoxGeometry(.38,.7,.04),mat('#e0435f'));cape.position.set(0,.8,-.18);cape.castShadow=true;body.add(cape);root.userData.cape=cape}
+ const ms=[];body.traverse(o=>{if(o.isMesh&&!o.userData.ol)ms.push(o)});ms.forEach(m=>outline(m));
+ return root;
 }
-function hitTest(px,py){
- let best=null,dist=Infinity;
- for(const e of enemies){let p=project(e.x,e.y,cellH*.4);let d=Math.hypot(px-p.x,py-(p.y+cellH*.05));if(d<cellW*.4&&d<dist){best=e;dist=d}}
- if(best)return {type:'enemy',unit:best};
- let x=Math.floor((px-originX)/cellW),y=Math.floor((py-originY)/cellH);
- if(inside(x,y))return {type:'tile',x,y};
- return null;
+function addUnit(u){u.mesh=createWarrior(u.isHero,u.kind||0);u.mesh.position.copy(pos(u.x,u.z));scene.add(u.mesh);u.mesh.userData.unit=u;return u}
+function clearUnits(){[hero,...enemies].filter(Boolean).forEach(u=>{if(u.mesh)scene.remove(u.mesh)});enemies=[]}
+function reset(){
+ if(!scene){return}
+ clearUnits();fx.forEach(o=>scene.remove(o));fx=[];moveMarks.forEach(o=>scene.remove(o));moveMarks=[];
+ hero=addUnit({isHero:true,x:4,z:7,hp:100,max:100,atk:31,armor:4});
+ enemies=[addUnit({x:2,z:2,hp:48,max:48,atk:12,name:'Ash Raider',kind:0}),addUnit({x:6,z:2,hp:48,max:48,atk:12,name:'Ash Raider',kind:0}),addUnit({x:4,z:4,hp:68,max:68,atk:16,name:'Iron Warden',kind:1})];
+ turn=1;score=0;gameOver=false;moveUsed=false;actionUsed=false;selectedEnemy=null;animating=false;$('overlay').classList.remove('show');$('restart').textContent='PLAY AGAIN';say('Choose your move, warrior.');updateHud();updateInfo();showMoves();drawAll();
 }
-function handleTap(e){
- if(gameOver)return;
- const r=canvas.getBoundingClientRect(),px=e.clientX-r.left,py=e.clientY-r.top,hit=hitTest(px,py);
- if(!hit)return;
- if(hit.type==='enemy'){attack(hit.unit);return}
- const {x,y}=hit;
- if(x===hero.x&&y===hero.y){say('Choose a highlighted tile or an enemy.');return}
- if(Math.abs(x-hero.x)+Math.abs(y-hero.y)===1&&!moveUsed&&!blocked(x,y)){
-  hero.x=x;hero.y=y;moveUsed=true;say('You reposition. Now strike a nearby enemy or Rally.');updateInfo('Position secured','You moved into a new tile. Tap an adjacent enemy to attack, or use Rally to recover 18 vitality.');draw();return;
- }
- if(!moveUsed&&Math.abs(x-hero.x)+Math.abs(y-hero.y)===1&&blocked(x,y)){say('That tile is occupied.');return}
- say('Move one tile at a time. Gold tiles are safe moves.');
+function updateHud(){$('hpText').textContent=`${Math.max(0,hero.hp)} / ${hero.max}`;$('hpBar').style.width=`${100*Math.max(0,hero.hp)/hero.max}%`;$('scoreText').textContent=score;$('enemyText').textContent=enemies.length;$('turnPill').textContent=gameOver?'BATTLE ENDED':`YOUR TURN · ${turn}`;$('attackBtn').disabled=actionUsed||gameOver;$('whirlBtn').disabled=actionUsed||gameOver;$('dashBtn').disabled=actionUsed||gameOver;$('waitBtn').disabled=gameOver}
+function updateInfo(title='The Oathbound',txt='Move up to two tiles, then use a sword ability or strike an adjacent foe. Defeat all three raiders.'){$('selectionTitle').textContent=title;$('selectionText').textContent=txt}
+function occupied(x,z,except=null){return enemies.some(e=>e!==except&&e.hp>0&&e.x===x&&e.z===z)||(hero!==except&&hero&&hero.hp>0&&hero.x===x&&hero.z===z)}
+function isObstacle(x,z){return obstacles.some(o=>o.x===x&&o.z===z)}
+function valid(x,z){return x>=0&&x<N&&z>=0&&z<N&&!isObstacle(x,z)}
+function neighbors(x,z){return [[1,0],[-1,0],[0,1],[0,-1]].map(([dx,dz])=>[x+dx,z+dz]).filter(([a,b])=>valid(a,b))}
+function reachable(){
+ const seen=new Map([[`${hero.x},${hero.z}`,0]]),q=[[hero.x,hero.z]];
+ while(q.length){const [x,z]=q.shift(),d=seen.get(`${x},${z}`);if(d>=2)continue;for(const [a,b] of neighbors(x,z)){const k=`${a},${b}`;if(!seen.has(k)&&!occupied(a,b)){seen.set(k,d+1);q.push([a,b])}}}
+ seen.delete(`${hero.x},${hero.z}`);return [...seen.keys()].map(k=>k.split(',').map(Number));
+}
+function clearMarkers(){moveMarks.forEach(o=>scene.remove(o));moveMarks=[]}
+function marker(x,z,color='#8ff7e0',size=.29){
+ const g=new THREE.Group();const ring=new THREE.Mesh(new THREE.RingGeometry(size*.7,size,32),new THREE.MeshBasicMaterial({color,transparent:true,opacity:.95,side:THREE.DoubleSide}));ring.rotation.x=-Math.PI/2;ring.position.y=.015;g.add(ring);
+ const dot=new THREE.Mesh(new THREE.CircleGeometry(size*.34,20),new THREE.MeshBasicMaterial({color,transparent:true,opacity:.22,side:THREE.DoubleSide}));dot.rotation.x=-Math.PI/2;dot.position.y=.018;g.add(dot);g.position.set(x-HALF,0,z-HALF);scene.add(g);moveMarks.push(g);return g;
+}
+function showMoves(){clearMarkers();if(gameOver)return;if(!moveUsed)reachable().forEach(([x,z])=>{if(!occupied(x,z))marker(x,z)});enemies.forEach(e=>{if(Math.abs(e.x-hero.x)+Math.abs(e.z-hero.z)<=1)marker(e.x,e.z,'#f2766b',.36)})}
+function drawAll(){if(!renderer)return;renderer.render(scene,camera)}
+function onPointer(ev){
+ if(gameOver||animating)return;const rect=canvas.getBoundingClientRect();pointer.x=((ev.clientX-rect.left)/rect.width)*2-1;pointer.y=-((ev.clientY-rect.top)/rect.height)*2+1;raycaster.setFromCamera(pointer,camera);
+ const unitMeshes=[];[hero,...enemies].forEach(u=>{u.mesh.traverse(o=>{if(o.isMesh)unitMeshes.push(o)})});
+ const hits=raycaster.intersectObjects([...unitMeshes,...tiles],false);if(!hits.length)return;
+ let unitHit=null;for(const h of hits){let p=h.object;while(p&&!p.userData.unit)p=p.parent;if(p&&p.userData.unit){unitHit=p.userData.unit;break}}
+ if(unitHit){const u=unitHit;if(u.isHero){say('Your blade is ready. Choose a highlighted tile.');return}selectedEnemy=u;attack(u);return}
+ let tileHit=hits.find(h=>h.object.userData.type==='tile');if(tileHit){const {x,z}=tileHit.object.userData;if(!moveUsed){const can=reachable().some(([a,b])=>a===x&&b===z);if(can){moveHero(x,z);return}}say('Tap a highlighted tile within your movement range.')}
+}
+function moveHero(x,z){
+ if(moveUsed||animating)return;moveUsed=true;animating=true;clearMarkers();const start=hero.mesh.position.clone(),end=pos(x,z);hero.x=x;hero.z=z;hero.mesh.rotation.y=Math.atan2(end.x-start.x,end.z-start.z);let t=0;const from=performance.now();
+ function step(now){t=Math.min(1,(now-from)/340);hero.mesh.position.lerpVectors(start,end,t);hero.mesh.position.y=Math.sin(t*Math.PI)*.12;hero.mesh.userData.body.rotation.x=Math.sin(t*Math.PI)*-.13;if(t<1)requestAnimationFrame(step);else{hero.mesh.position.copy(end);hero.mesh.position.y=0;hero.mesh.userData.body.rotation.x=0;animating=false;showMoves();updateInfo('Position secured','You advanced up to two tiles. Strike an adjacent foe or use a special ability.');say('Position secured. Choose an attack.')}}requestAnimationFrame(step);
+}
+function adjacent(a,b){return Math.abs(a.x-b.x)+Math.abs(a.z-b.z)<=1}
+function animateStrike(u,callback){
+ if(animating)return;animating=true;const arm=u.mesh.userData.arm,sword=u.mesh.userData.sword,from=performance.now(),base=arm.rotation.z;
+ function step(now){const t=Math.min(1,(now-from)/380);arm.rotation.z=base+Math.sin(t*Math.PI)*-1.65;sword.rotation.z=Math.sin(t*Math.PI)*-.25;if(t<1)requestAnimationFrame(step);else{arm.rotation.z=base;sword.rotation.z=0;animating=false;callback()}}requestAnimationFrame(step);
+}
+function damageEnemy(e,dmg){e.hp-=dmg;e.mesh.userData.hpBar.scale.x=Math.max(.001,e.hp/e.max);e.mesh.userData.hpBar.position.x=-.33*(1-Math.max(0,e.hp/e.max));if(e.hp<=0){score+=e.kind===1?150:100;scene.remove(e.mesh);enemies=enemies.filter(x=>x!==e);say(`${e.name} defeated. Renown +${e.kind===1?150:100}.`)}}
+function slash(x,z,color){const m=new THREE.Mesh(new THREE.RingGeometry(.28,.78,36,1,0,Math.PI*1.15),new THREE.MeshBasicMaterial({color,transparent:true,opacity:1,side:THREE.DoubleSide,blending:THREE.AdditiveBlending,depthWrite:false}));m.position.copy(pos(x,z,1.0));m.rotation.set(-Math.PI/2+.5,0,Math.random()*6);m.userData={vel:new THREE.Vector3(),life:1,spin:.22};scene.add(m);fx.push(m)}
+function animeFx(t){if(aura&&hero&&hero.mesh){aura.position.set(hero.mesh.position.x,.03,hero.mesh.position.z);aura.rotation.y=t*.7;aura.scale.setScalar(1+Math.sin(t*2.4)*.06)}
+ if(flies){flies.rotation.y=t*.025;flies.position.y=Math.sin(t*.6)*.25;flies.material.opacity=.65+Math.sin(t*3)*.25}
+ if(hero&&hero.mesh&&hero.mesh.userData.cape)hero.mesh.userData.cape.rotation.x=.12+Math.sin(t*2.2)*.07}
+function addDecor(){
+ const sm=['#8c9a92','#7a8a8e'].map(c=>mat(c));
+ const pillar=(x,z,h,r=.3)=>{const p=new THREE.Mesh(new THREE.CylinderGeometry(r,r*1.15,h,7),sm[(Math.abs(x)+Math.abs(z))%2|0]);p.position.set(x,h/2-.2,z);p.castShadow=true;p.receiveShadow=true;outline(p,1.07);scene.add(p);const cap=new THREE.Mesh(new THREE.BoxGeometry(r*2.5,.16,r*2.5),mat('#a9b6ae'));cap.position.set(x,h-.12,z);outline(cap,1.1);scene.add(cap)};
+ [[-4.8,-6.6,3.4],[-1.6,-6.8,2.2],[1.8,-6.6,3.8],[5,-6.8,2.6],[-6.4,-2.5,2.4],[6.4,-1.2,3],[-6.5,2.4,1.5],[6.5,3.8,2]].forEach(a=>pillar(...a));
+ const lin=new THREE.Mesh(new THREE.BoxGeometry(3.6,.4,.6),mat('#8c9a92'));lin.position.set(-3.2,3.45,-6.6);lin.rotation.z=.05;lin.castShadow=true;outline(lin,1.05);scene.add(lin);
+ [[-7,4.5],[7.2,5.5],[-7.2,-5],[7.4,-4.2]].forEach(([x,z])=>{const tr=new THREE.Mesh(new THREE.CylinderGeometry(.14,.2,1.2,6),mat('#6b4a3a'));tr.position.set(x,.4,z);outline(tr);scene.add(tr);
+  [[1.5,1.15],[1.05,1.9],[.65,2.5]].forEach(([r,y],j)=>{const c=new THREE.Mesh(new THREE.ConeGeometry(r,1.1,7),mat(['#3f8f5a','#4fae6a','#7bd48a'][j]));c.position.set(x,y,z);c.castShadow=true;outline(c,1.08);scene.add(c)})});
+ aura=new THREE.Group();const am=new THREE.MeshBasicMaterial({color:'#7dffb4',transparent:true,opacity:.85,side:THREE.DoubleSide,blending:THREE.AdditiveBlending,depthWrite:false});
+ [[.5,.58],[.72,.76]].forEach(([a,b])=>{const r=new THREE.Mesh(new THREE.RingGeometry(a,b,40),am);r.rotation.x=-Math.PI/2;aura.add(r)});
+ for(let i=0;i<8;i++){const k=new THREE.Mesh(new THREE.PlaneGeometry(.09,.2),am),a=i/8*Math.PI*2;k.position.set(Math.cos(a)*.62,0,Math.sin(a)*.62);k.rotation.set(-Math.PI/2,0,-a);aura.add(k)}
+ scene.add(aura);
+ const n=110,pp=new Float32Array(n*3);for(let i=0;i<n;i++){pp[i*3]=(Math.random()-.5)*15;pp[i*3+1]=.3+Math.random()*3.5;pp[i*3+2]=(Math.random()-.5)*15}
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pp,3));flies=new THREE.Points(g,new THREE.PointsMaterial({color:'#b8ffcf',size:.11,transparent:true,opacity:.8,blending:THREE.AdditiveBlending,depthWrite:false}));scene.add(flies);
+}
+function burst(x,z,color='#f5c66a',count=12){
+ slash(x,z,color);const origin=pos(x,z,.8);for(let i=0;i<count;i++){const m=new THREE.Mesh(new THREE.IcosahedronGeometry(.045+Math.random()*.045,0),new THREE.MeshBasicMaterial({color,transparent:true,opacity:1,blending:THREE.AdditiveBlending,depthWrite:false}));m.position.copy(origin);m.userData.vel=new THREE.Vector3((Math.random()-.5)*2,Math.random()*2,(Math.random()-.5)*2);m.userData.life=1;scene.add(m);fx.push(m)}
 }
 function attack(e){
- const d=Math.abs(e.x-hero.x)+Math.abs(e.y-hero.y);
- if(d>1){say(`${e.name} is too far away. Move adjacent first.`);return}
- if(actionUsed){say('You have already attacked this turn.');return}
- let dmg=hero.atk+Math.floor(Math.random()*9);e.hp-=dmg;actionUsed=true;
- say(`Blade strike! ${dmg} damage dealt.`);
- updateInfo('Vengeance delivered',`${e.name} takes ${dmg} damage. ${e.hp<=0?'The enemy falls.':'Finish the fight, warrior.'}`);
- if(e.hp<=0){enemies=enemies.filter(x=>x!==e);score+=e.kind===1?150:100;say(`${e.name} defeated. +${e.kind===1?150:100} renown.`)}
- updateHud();draw();
- if(enemies.length===0){endGame(true);return}
- if(!enemies.some(x=>Math.abs(x.x-hero.x)+Math.abs(x.y-hero.y)<=1)&&actionUsed){say('No foe in reach. Tap Wait to end your turn.')}
+ if(!e||!enemies.includes(e))return;if(!adjacent(hero,e)){say(`${e.name} is too far away. Move closer or use Blade Dash.`);return}if(actionUsed){say('Your action is spent this turn.');return}
+ actionUsed=true;hero.mesh.rotation.y=Math.atan2(e.x-hero.x,e.z-hero.z);animateStrike(hero,()=>{const dmg=hero.atk+Math.floor(Math.random()*10);damageEnemy(e,dmg);burst(e.x,e.z);updateHud();showMoves();if(!enemies.length){endGame(true);return}updateInfo('Blade meets armor',`${dmg} damage dealt. Use End Turn when ready; enemies will advance or attack.`);});
 }
-function rally(){
- if(gameOver)return;if(actionUsed){say('You have already used your action.');return}
- const old=hero.hp;hero.hp=Math.min(hero.max,hero.hp+18);actionUsed=true;say(`Rally restores ${hero.hp-old} vitality.`);
- updateInfo('Steady your resolve','You regain vitality. Enemies will press forward when you end your turn.');updateHud();draw();
+function whirlwind(){
+ if(actionUsed||gameOver)return;const targets=enemies.filter(e=>Math.abs(e.x-hero.x)+Math.abs(e.z-hero.z)<=1);if(!targets.length){say('Whirlwind needs at least one adjacent enemy.');return}actionUsed=true;animating=true;
+ const start=performance.now();function spin(now){const t=Math.min(1,(now-start)/560);hero.mesh.rotation.y=t*Math.PI*4;hero.mesh.userData.arm.rotation.z=-Math.sin(t*Math.PI*3)*1.8;if(t<1)requestAnimationFrame(spin);else{hero.mesh.rotation.y=0;hero.mesh.userData.arm.rotation.z=0;animating=false;targets.forEach(e=>{if(enemies.includes(e)){damageEnemy(e,22);burst(e.x,e.z,'#b99bff',16)}});say(`Whirlwind hits ${targets.length} nearby foe${targets.length===1?'':'s'} for 22 damage.`);updateHud();showMoves();if(!enemies.length)endGame(true);updateInfo('Whirlwind','A spinning area attack damages every adjacent enemy. Special abilities use your action.')}}requestAnimationFrame(spin);
 }
+function dash(){
+ if(actionUsed||gameOver)return;
+ const target=[...enemies].sort((a,b)=>(Math.abs(a.x-hero.x)+Math.abs(a.z-hero.z))-(Math.abs(b.x-hero.x)+Math.abs(b.z-hero.z)))[0];
+ if(!target){return}const d=Math.abs(target.x-hero.x)+Math.abs(target.z-hero.z);if(d>3){say('No enemy close enough for Blade Dash. Get within three tiles.');return}
+ actionUsed=true;animating=true;const sx=hero.x,sz=hero.z;let tx=target.x,tz=target.z;const candidates=neighbors(tx,tz).filter(([x,z])=>!occupied(x,z)&&!isObstacle(x,z));candidates.sort((a,b)=>(Math.abs(a[0]-sx)+Math.abs(a[1]-sz))-(Math.abs(b[0]-sx)+Math.abs(b[1]-sz)));if(!candidates.length){actionUsed=false;animating=false;say('No open landing tile beside that enemy.');return}
+ const [lx,lz]=candidates[0],start=hero.mesh.position.clone(),end=pos(lx,lz),from=performance.now();hero.mesh.rotation.y=Math.atan2(target.x-sx,target.z-sz);burst(sx,sz,'#8e73df',9);
+ function step(now){const t=Math.min(1,(now-from)/420);hero.mesh.position.lerpVectors(start,end,t);hero.mesh.position.y=Math.sin(t*Math.PI)*.75;hero.mesh.userData.body.rotation.x=-Math.sin(t*Math.PI)*.45;if(t<1)requestAnimationFrame(step);else{hero.x=lx;hero.z=lz;hero.mesh.position.copy(end);hero.mesh.position.y=0;hero.mesh.userData.body.rotation.x=0;animating=false;const dmg=38;damageEnemy(target,dmg);burst(tx,tz,'#8e73df',18);say(`Blade Dash deals ${dmg} damage and repositions you.`);updateHud();showMoves();if(!enemies.length)endGame(true);updateInfo('Blade Dash','A gap-closing strike. You leap beside the nearest foe and deal 38 damage.')}}requestAnimationFrame(step);
+}
+function rally(){if(actionUsed||gameOver)return;const old=hero.hp;hero.hp=Math.min(hero.max,hero.hp+18);actionUsed=true;updateHud();say(`Rally restores ${hero.hp-old} vitality.`);burst(hero.x,hero.z,'#79d49a',10);updateInfo('Rally','Recover up to 18 vitality. It uses your action for this turn.')}
 function endTurn(){
- if(gameOver)return;
- // Enemies move/attack in sequence
- for(const e of [...enemies]){
-  if(Math.abs(e.x-hero.x)+Math.abs(e.y-hero.y)<=1){
-   const damage=Math.max(4,e.atk-hero.armor+Math.floor(Math.random()*5));hero.hp-=damage;say(`${e.name} hits you for ${damage}.`);
-  }else{
-   let options=dirs.map(([dx,dy])=>({x:e.x+dx,y:e.y+dy})).filter(p=>inside(p.x,p.y)&&!obstacles.has(`${p.x},${p.y}`)&&!(hero.x===p.x&&hero.y===p.y)&&!enemies.some(o=>o!==e&&o.x===p.x&&o.y===p.y));
-   options.sort((a,b)=>(Math.abs(a.x-hero.x)+Math.abs(a.y-hero.y))-(Math.abs(b.x-hero.x)+Math.abs(b.y-hero.y)));
-   if(options.length&&Math.abs(e.x-hero.x)+Math.abs(e.y-hero.y)>1){e.x=options[0].x;e.y=options[0].y}
-   if(Math.abs(e.x-hero.x)+Math.abs(e.y-hero.y)<=1){const damage=Math.max(4,e.atk-hero.armor+Math.floor(Math.random()*5));hero.hp-=damage;say(`${e.name} closes in and strikes for ${damage}.`)}
-  }
-  if(hero.hp<=0)break;
+ if(gameOver||animating)return;clearMarkers();animating=true;
+ const sequence=[...enemies];let i=0;
+ function next(){
+  if(i>=sequence.length||hero.hp<=0){animating=false;turn++;moveUsed=false;actionUsed=false;updateHud();showMoves();if(hero.hp<=0){endGame(false);return}say('Your turn. Read the battlefield.');updateInfo('Enemy turn complete','Your foes have moved. Use terrain, movement and sword abilities to control the fight.');return}
+  const e=sequence[i++];if(!enemies.includes(e)){next();return}
+  const dist=Math.abs(e.x-hero.x)+Math.abs(e.z-hero.z);
+  if(dist<=1){const dmg=Math.max(4,e.atk-hero.armor+Math.floor(Math.random()*5));hero.hp-=dmg;hero.mesh.userData.hpBar.scale.x=Math.max(.001,hero.hp/hero.max);say(`${e.name} strikes for ${dmg}.`);e.mesh.rotation.y=Math.atan2(hero.x-e.x,hero.z-e.z);animateStrike(e,()=>{burst(hero.x,hero.z,'#ef7770',6);updateHud();next()});return}
+  const opts=neighbors(e.x,e.z).filter(([x,z])=>!occupied(x,z,e)&&!isObstacle(x,z));opts.sort((a,b)=>(Math.abs(a[0]-hero.x)+Math.abs(a[1]-hero.z))-(Math.abs(b[0]-hero.x)+Math.abs(b[1]-hero.z)));
+  if(opts.length){const [x,z]=opts[0];const start=e.mesh.position.clone(),end=pos(x,z),from=performance.now();e.mesh.rotation.y=Math.atan2(hero.x-e.x,hero.z-e.z);e.x=x;e.z=z;
+   function step(now){const t=Math.min(1,(now-from)/230);e.mesh.position.lerpVectors(start,end,t);e.mesh.position.y=Math.sin(t*Math.PI)*.07;if(t<1)requestAnimationFrame(step);else{e.mesh.position.copy(end);e.mesh.position.y=0;if(adjacent(e,hero)){const dmg=Math.max(4,e.atk-hero.armor+Math.floor(Math.random()*5));hero.hp-=dmg;say(`${e.name} closes in for ${dmg} damage.`);updateHud();}next()}}requestAnimationFrame(step);
+  }else next();
  }
- turn++;moveUsed=false;actionUsed=false;updateHud();draw();
- if(hero.hp<=0){endGame(false);return}
- say('Your turn. Reposition, strike, or rally.');updateInfo('The frontier shifts','Enemy turn complete. Study their positions and choose your next move.');
+ next();
 }
-function endGame(win){
- gameOver=true;updateHud();$('overlay').classList.add('show');$('endIcon').textContent=win?'🏆':'🩸';$('endTitle').textContent=win?'Frontier reclaimed':'The blade falls';$('endText').textContent=win?`All threats defeated. You earned ${score} renown. The frontier remembers your name.`:'Your vitality is spent. Learn their positions, use Rally wisely, and try again.';
+function endGame(win){gameOver=true;updateHud();$('overlay').classList.add('show');$('endIcon').textContent=win?'🏆':'🩸';$('endTitle').textContent=win?'Frontier reclaimed':'The blade falls';$('endText').textContent=win?`All threats defeated. You earned ${score} renown. The frontier remembers your name.`:'Your vitality is spent. Use Whirlwind when surrounded, Dash to close gaps, and Rally when you need to recover.'}
+function animate(){
+ requestAnimationFrame(animate);if(!renderer)return;const t=clock.getElapsedTime();
+ [hero,...enemies].filter(Boolean).forEach(u=>{if(u.mesh&&!animating){u.mesh.userData.body.position.y=Math.sin(t*2+u.mesh.userData.phase)*.025;u.mesh.userData.arm.rotation.x=Math.sin(t*1.8+u.mesh.userData.phase)*.035}if(u.mesh&&u!==hero)u.mesh.userData.ring.material.opacity=.78+Math.sin(t*3+u.x)*.15});
+ moveMarks.forEach((m,i)=>{const s=1+Math.sin(t*4+i)*.055;m.scale.setScalar(s)});animeFx(t);fx=fx.filter(o=>{o.userData.life-=.035;o.position.addScaledVector(o.userData.vel,.025);o.userData.vel.y-=.025;if(o.userData.spin){o.rotation.z+=o.userData.spin;o.scale.multiplyScalar(1.035)}o.material.opacity=Math.max(0,o.userData.life);if(o.userData.life<=0){scene.remove(o);return false}return true});
+ renderer.render(scene,camera);
 }
-$('waitBtn').addEventListener('click',endTurn);$('healBtn').addEventListener('click',rally);$('restart').addEventListener('click',reset);
-$('helpBtn').addEventListener('click',()=>{ $('overlay').classList.add('show');$('endIcon').textContent='📜';$('endTitle').textContent='How to play';$('endText').textContent='Tap a gold-highlighted adjacent tile to move. Tap an adjacent enemy to attack. Rally restores 18 vitality but uses your action. Press Wait to end the turn, letting enemies attack or advance. Defeat all three foes to win.';$('restart').textContent='BACK TO BATTLE';});
-canvas.addEventListener('pointerup',handleTap);
-window.addEventListener('resize',resize);
+$('attackBtn').addEventListener('click',()=>{const e=enemies.filter(x=>adjacent(x,hero)).sort((a,b)=>a.hp-b.hp)[0];if(e)attack(e);else say('Move adjacent to an enemy first.')});
+$('whirlBtn').addEventListener('click',whirlwind);$('dashBtn').addEventListener('click',dash);$('waitBtn').addEventListener('click',endTurn);$('restart').addEventListener('click',reset);
+$('helpBtn').addEventListener('click',()=>{$('overlay').classList.add('show');$('endIcon').textContent='📜';$('endTitle').textContent='How to play';$('endText').textContent='Tap a highlighted tile to move up to two tiles. Tap a nearby enemy or Strike to attack. Whirlwind deals 22 damage to all adjacent enemies. Blade Dash leaps beside the nearest enemy within three tiles and deals 38 damage. Rally restores 18 vitality. End Turn lets enemies act.';$('restart').textContent='BACK TO BATTLE'});
 window.addEventListener('keydown',e=>{if(e.key==='Escape')$('overlay').classList.remove('show');if(e.key.toLowerCase()==='r')reset();if(e.key===' '){e.preventDefault();endTurn()}});
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('installBtn').hidden=false});
-$('installBtn').addEventListener('click',async()=>{if(!installPrompt){say('Use your browser menu and choose Add to Home Screen.');return}installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$('installBtn').hidden=true});
-if('serviceWorker'in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-reset();
-})();
-</script>
-</body></html>
+let installPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('installBtn').hidden=false});$('installBtn').addEventListener('click',async()=>{if(!installPrompt){say('Open your browser menu and choose Add to Home Screen.');return}installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$('installBtn').hidden=true});
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+init3D();reset();
+</script></body></html>
