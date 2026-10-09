@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#10151c">
+<meta name="description" content="Blade of Vengeance: a tactical fantasy strategy game.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>Blade of Vengeance</title>
+<style>
+:root{--bg:#0b1017;--panel:#151d28;--line:#344252;--gold:#e8b85b;--text:#edf3fa;--muted:#9aabbd;--red:#f06b67;--green:#79d49a}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif;overscroll-behavior:none}
+body{display:flex;justify-content:center;align-items:stretch;background:radial-gradient(ellipse at 50% 0%,#202c3b 0,#0b1017 68%)}
+.app{width:min(100%,1000px);min-height:100dvh;display:flex;flex-direction:column;padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom);gap:10px}
+header{display:flex;align-items:center;justify-content:space-between;padding:10px 2px 2px;gap:8px}
+.brand{display:flex;align-items:center;gap:10px}.mark{width:42px;height:42px;border:1px solid #7e6337;border-radius:12px;background:linear-gradient(145deg,#283747,#10151c);display:grid;place-items:center;font-size:24px;box-shadow:0 5px 20px #0006}
+h1{font-size:clamp(17px,4.5vw,23px);letter-spacing:.05em;margin:0}.sub{font-size:11px;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;margin-top:2px}
+.pill{border:1px solid var(--line);border-radius:99px;padding:7px 10px;color:var(--gold);font-size:12px;white-space:nowrap}
+.hud{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.stat{background:#151d28d9;border:1px solid var(--line);border-radius:12px;padding:9px 10px;min-width:0}.stat label{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.12em}.stat strong{font-size:17px;display:block;margin-top:2px}
+.hpbar{height:4px;border-radius:9px;background:#3d252a;margin-top:5px;overflow:hidden}.hpbar span{display:block;height:100%;background:linear-gradient(90deg,#c64b4b,#ff9a69);width:100%;transition:width .2s}
+.board-wrap{position:relative;flex:1;min-height:280px;max-height:57dvh;background:linear-gradient(#182330,#101820);border:1px solid #394655;border-radius:18px;overflow:hidden;box-shadow:0 12px 40px #0005}
+canvas{width:100%;height:100%;display:block;touch-action:manipulation}
+.legend{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;pointer-events:none;gap:6px}.legend span{font-size:10px;color:#d8e3ed;background:#0a1019b8;border:1px solid #ffffff16;border-radius:7px;padding:5px 7px;backdrop-filter:blur(4px)}
+.toast{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);padding:8px 12px;background:#080d14e8;border:1px solid #536171;border-radius:9px;font-size:12px;white-space:nowrap;max-width:90%;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+.bottom{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:stretch}
+.info{border:1px solid var(--line);border-radius:13px;background:var(--panel);padding:10px 12px;min-width:0}.info strong{display:block;font-size:13px}.info p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.35}
+.actions{display:grid;grid-template-columns:repeat(2,minmax(74px,1fr));gap:7px}
+button{font:inherit;color:var(--text);border:1px solid #4a5a6b;background:linear-gradient(#263445,#18222e);border-radius:12px;padding:10px 11px;font-weight:650;font-size:12px;min-height:43px;cursor:pointer;touch-action:manipulation}
+button:active{transform:translateY(1px);filter:brightness(1.2)}button.primary{border-color:#a67c38;color:#ffe2a1;background:linear-gradient(#624a28,#332719)}button:disabled{opacity:.35;cursor:not-allowed}
+.footer{display:flex;justify-content:space-between;align-items:center;gap:8px;color:#7f91a4;font-size:10px;padding:0 3px 5px}.footer button{padding:6px 9px;min-height:30px;font-size:10px}
+.overlay{position:absolute;inset:0;background:#080d14df;display:none;place-items:center;text-align:center;padding:24px;backdrop-filter:blur(5px)}.overlay.show{display:grid}.modal{max-width:360px}.modal h2{font-size:27px;margin:8px 0;color:var(--gold)}.modal p{color:#c0ccda;line-height:1.5;font-size:14px}.modal button{margin:4px}
+@media(min-width:700px){.app{padding-left:20px;padding-right:20px}.board-wrap{max-height:60dvh}.stat{padding:12px 14px}.stat label{font-size:11px}.stat strong{font-size:20px}}
+@media(max-height:650px){.board-wrap{min-height:230px;max-height:48dvh}.app{gap:7px}.stat{padding:6px 9px}.info{padding:7px 10px}.actions button{min-height:37px;padding:7px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand"><div class="mark">⚔</div><div><h1>BLADE OF VENGEANCE</h1><div class="sub">Tactical frontier · Prototype 0.1</div></div></div><div class="pill" id="turnPill">YOUR TURN</div></header>
+<section class="hud">
+ <div class="stat"><label>Vitality</label><strong id="hpText">100 / 100</strong><div class="hpbar"><span id="hpBar"></span></div></div>
+ <div class="stat"><label>Renown</label><strong id="scoreText">0</strong></div>
+ <div class="stat"><label>Threats left</label><strong id="enemyText">3</strong></div>
+</section>
+<main class="board-wrap" id="boardWrap">
+ <canvas id="game" aria-label="Tactical battlefield. Tap a highlighted tile to move, or tap an enemy to attack."></canvas>
+ <div class="legend"><span>✦ Tap tiles to move</span><span>☠ Tap enemy to strike</span></div>
+ <div class="toast" id="toast">Choose your move, warrior.</div>
+ <div class="overlay" id="overlay"><div class="modal"><div style="font-size:42px" id="endIcon">⚔️</div><h2 id="endTitle">Victory</h2><p id="endText">The frontier is yours.</p><button class="primary" id="restart">PLAY AGAIN</button></div></div>
+</main>
+<section class="bottom">
+ <div class="info"><strong id="selectionTitle">The Oathbound</strong><p id="selectionText">You are the last blade of a fallen order. Defeat every raider to reclaim the frontier. Move one tile, then strike an adjacent foe.</p></div>
+ <div class="actions"><button id="waitBtn">⏳ Wait</button><button class="primary" id="healBtn">✚ Rally</button></div>
+</section>
+<div class="footer"><span>Prototype: turn-based tactical combat</span><button id="installBtn" hidden>＋ Add to Home Screen</button><button id="helpBtn">HOW TO PLAY</button></div>
+</div>
+<script>
+(() => {
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
+const $=id=>document.getElementById(id);
+const W=9,H=9;
+let hero,enemies,obstacles,turn,score,selected,gameOver,toastTimer,cellW,cellH,originX,originY,scale=1,moveUsed,actionUsed,installPrompt;
+const dirs=[[1,0],[-1,0],[0,1],[0,-1]];
+function reset(){
+ hero={x:4,y:7,hp:100,max:100,atk:34,armor:4}; enemies=[
+ {x:2,y:2,hp:48,max:48,atk:13,name:'Ash Raider',kind:0},
+ {x:6,y:2,hp:48,max:48,atk:13,name:'Ash Raider',kind:0},
+ {x:4,y:4,hp:68,max:68,atk:17,name:'Iron Warden',kind:1}
+ ]; obstacles=new Set(['1,4','2,4','6,5','7,5','3,6','5,6','3,2','5,3']);
+ turn=1;score=0;selected=null;gameOver=false;moveUsed=false;actionUsed=false;
+ $('overlay').classList.remove('show');say('Choose your move, warrior.');updateHud();resize();draw();updateInfo();
+}
+function say(s){$('toast').textContent=s;clearTimeout(toastTimer);toastTimer=setTimeout(()=>{},1800)}
+function updateHud(){$('hpText').textContent=`${hero.hp} / ${hero.max}`;$('hpBar').style.width=`${100*hero.hp/hero.max}%`;$('scoreText').textContent=score;$('enemyText').textContent=enemies.length;$('turnPill').textContent=gameOver?'BATTLE ENDED':`YOUR TURN · ${turn}`}
+function updateInfo(title,txt){$('selectionTitle').textContent=title||'The Oathbound';$('selectionText').textContent=txt||'You are the last blade of a fallen order. Defeat every raider to reclaim the frontier. Move one tile, then strike an adjacent foe.'}
+function resize(){
+ const r=canvas.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);
+ canvas.width=Math.max(1,Math.floor(r.width*dpr));canvas.height=Math.max(1,Math.floor(r.height*dpr));ctx.setTransform(dpr,0,0,dpr,0,0);
+ const cw=r.width,ch=r.height;cellW=Math.min((cw-28)/(W+0.6),(ch-25)/(H*.65+1));cellH=cellW*.58;
+ originX=(cw-W*cellW)/2;originY=Math.max(28,(ch-H*cellH)/2+cellH*.3);scale=dpr;draw();
+}
+function tileCenter(x,y){return {x:originX+(x+.5)*cellW,y:originY+(y+.5)*cellH};}
+function project(x,y,z=0){const p=tileCenter(x,y);return {x:p.x,y:p.y-z};}
+function diamond(x,y,w,h,fill,stroke){ctx.beginPath();ctx.moveTo(x,y-h/2);ctx.lineTo(x+w/2,y);ctx.lineTo(x,y+h/2);ctx.lineTo(x-w/2,y);ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke();}}
+function draw(){
+ if(!ctx||!cellW)return;
+ const r=canvas.getBoundingClientRect(),cw=r.width,ch=r.height;
+ ctx.clearRect(0,0,cw,ch);
+ const sky=ctx.createLinearGradient(0,0,0,ch);sky.addColorStop(0,'#1b2a39');sky.addColorStop(1,'#0e171f');ctx.fillStyle=sky;ctx.fillRect(0,0,cw,ch);
+ // distant silhouettes
+ for(let i=0;i<9;i++){let x=i*cw/7-25;ctx.fillStyle=i%2?'#182633':'#202d38';ctx.beginPath();ctx.moveTo(x,ch*.30);ctx.lineTo(x+35,ch*.12+(i%3)*9);ctx.lineTo(x+72,ch*.30);ctx.fill()}
+ // board in pseudo-isometric perspective
+ for(let y=0;y<H;y++)for(let x=0;x<W;x++){
+  const p=tileCenter(x,y),alt=(x+y)%2===0;
+  diamond(p.x,p.y,cellW*.98,cellH*.98,alt?'#263d3c':'#213634','#3a5550');
+  if((x*7+y*3)%11===0){ctx.fillStyle='#476052';ctx.globalAlpha=.5;ctx.beginPath();ctx.arc(p.x-cellW*.15,p.y,2,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1}
+  if(obstacles.has(`${x},${y}`)){
+   ctx.fillStyle='#11191d';ctx.beginPath();ctx.moveTo(p.x-cellW*.2,p.y);ctx.lineTo(p.x-cellW*.08,p.y-cellH*.38);ctx.lineTo(p.x+cellW*.2,p.y-cellH*.2);ctx.lineTo(p.x+cellW*.23,p.y+cellH*.02);ctx.closePath();ctx.fill();
+   ctx.strokeStyle='#6b7b76';ctx.stroke();
+  }
+ }
+ // valid move markers
+ if(!gameOver&&!moveUsed)for(const [dx,dy] of dirs){let x=hero.x+dx,y=hero.y+dy;if(inside(x,y)&&!blocked(x,y)){let p=tileCenter(x,y);diamond(p.x,p.y,cellW*.65,cellH*.65,'#d7b05b30','#e9c779')}}
+ // units draw sorted by y
+ const units=[{...hero,isHero:true},...enemies].sort((a,b)=>a.y-b.y);
+ for(const u of units)drawUnit(u);
+ // grid vignette
+ const v=ctx.createRadialGradient(cw/2,ch*.5,Math.min(cw,ch)*.15,cw/2,ch*.5,Math.max(cw,ch)*.75);v.addColorStop(0,'#0000');v.addColorStop(1,'#05090e77');ctx.fillStyle=v;ctx.fillRect(0,0,cw,ch);
+}
+function inside(x,y){return x>=0&&y>=0&&x<W&&y<H}
+function blocked(x,y){return obstacles.has(`${x},${y}`)|| (hero.x===x&&hero.y===y)||enemies.some(e=>e.x===x&&e.y===y)}
+function drawUnit(u){
+ const p=project(u.x,u.y,cellH*.4),heroUnit=!!u.isHero;
+ // shadow
+ ctx.fillStyle='#05090b88';ctx.beginPath();ctx.ellipse(p.x,p.y+cellH*.18,cellW*.22,cellH*.16,0,0,Math.PI*2);ctx.fill();
+ // ground ring
+ ctx.strokeStyle=heroUnit?'#f4d27a':'#f17d69';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(p.x,p.y+cellH*.08,cellW*.22,cellH*.13,0,0,Math.PI*2);ctx.stroke();
+ // body / 3d-ish armor
+ const s=cellW*.20,top=p.y-cellH*.42;
+ ctx.fillStyle=heroUnit?'#d9e0e3':u.kind===1?'#b2b7c0':'#7c5550';
+ ctx.beginPath();ctx.moveTo(p.x-s*.65,top+cellH*.2);ctx.lineTo(p.x-s*.4,top);ctx.lineTo(p.x+s*.35,top);ctx.lineTo(p.x+s*.68,top+cellH*.22);ctx.lineTo(p.x+s*.4,top+cellH*.48);ctx.lineTo(p.x-s*.4,top+cellH*.48);ctx.closePath();ctx.fill();
+ ctx.fillStyle=heroUnit?'#667f91':u.kind===1?'#555f70':'#9b6255';ctx.beginPath();ctx.moveTo(p.x-s*.4,top);ctx.lineTo(p.x+s*.35,top);ctx.lineTo(p.x+s*.68,top+cellH*.22);ctx.lineTo(p.x,top+cellH*.31);ctx.closePath();ctx.fill();
+ // head and crest
+ ctx.fillStyle=heroUnit?'#e9c8a1':'#c18b72';ctx.beginPath();ctx.ellipse(p.x,top-cellH*.06,s*.42,cellH*.12,0,0,Math.PI*2);ctx.fill();
+ ctx.strokeStyle=heroUnit?'#f3d17b':'#d3d6d9';ctx.lineWidth=Math.max(2,cellW*.035);ctx.beginPath();ctx.moveTo(p.x+s*.48,top+cellH*.12);ctx.lineTo(p.x+s*1.15,top+cellH*.36);ctx.stroke();
+ if(!heroUnit){
+   const bw=cellW*.47,bh=4,by=top-cellH*.25;ctx.fillStyle='#421f25';ctx.fillRect(p.x-bw/2,by,bw,bh);ctx.fillStyle='#e75e5e';ctx.fillRect(p.x-bw/2,by,bw*Math.max(0,u.hp/u.max),bh);
+ } else {
+   ctx.fillStyle='#e9c779';ctx.font=`bold ${Math.max(9,cellW*.22)}px system-ui`;ctx.textAlign='center';ctx.fillText('YOU',p.x,top-cellH*.29);
+ }
+}
+function hitTest(px,py){
+ let best=null,dist=Infinity;
+ for(const e of enemies){let p=project(e.x,e.y,cellH*.4);let d=Math.hypot(px-p.x,py-(p.y+cellH*.05));if(d<cellW*.4&&d<dist){best=e;dist=d}}
+ if(best)return {type:'enemy',unit:best};
+ let x=Math.floor((px-originX)/cellW),y=Math.floor((py-originY)/cellH);
+ if(inside(x,y))return {type:'tile',x,y};
+ return null;
+}
+function handleTap(e){
+ if(gameOver)return;
+ const r=canvas.getBoundingClientRect(),px=e.clientX-r.left,py=e.clientY-r.top,hit=hitTest(px,py);
+ if(!hit)return;
+ if(hit.type==='enemy'){attack(hit.unit);return}
+ const {x,y}=hit;
+ if(x===hero.x&&y===hero.y){say('Choose a highlighted tile or an enemy.');return}
+ if(Math.abs(x-hero.x)+Math.abs(y-hero.y)===1&&!moveUsed&&!blocked(x,y)){
+  hero.x=x;hero.y=y;moveUsed=true;say('You reposition. Now strike a nearby enemy or Rally.');updateInfo('Position secured','You moved into a new tile. Tap an adjacent enemy to attack, or use Rally to recover 18 vitality.');draw();return;
+ }
+ if(!moveUsed&&Math.abs(x-hero.x)+Math.abs(y-hero.y)===1&&blocked(x,y)){say('That tile is occupied.');return}
+ say('Move one tile at a time. Gold tiles are safe moves.');
+}
+function attack(e){
+ const d=Math.abs(e.x-hero.x)+Math.abs(e.y-hero.y);
+ if(d>1){say(`${e.name} is too far away. Move adjacent first.`);return}
+ if(actionUsed){say('You have already attacked this turn.');return}
+ let dmg=hero.atk+Math.floor(Math.random()*9);e.hp-=dmg;actionUsed=true;
+ say(`Blade strike! ${dmg} damage dealt.`);
+ updateInfo('Vengeance delivered',`${e.name} takes ${dmg} damage. ${e.hp<=0?'The enemy falls.':'Finish the fight, warrior.'}`);
+ if(e.hp<=0){enemies=enemies.filter(x=>x!==e);score+=e.kind===1?150:100;say(`${e.name} defeated. +${e.kind===1?150:100} renown.`)}
+ updateHud();draw();
+ if(enemies.length===0){endGame(true);return}
+ if(!enemies.some(x=>Math.abs(x.x-hero.x)+Math.abs(x.y-hero.y)<=1)&&actionUsed){say('No foe in reach. Tap Wait to end your turn.')}
+}
+function rally(){
+ if(gameOver)return;if(actionUsed){say('You have already used your action.');return}
+ const old=hero.hp;hero.hp=Math.min(hero.max,hero.hp+18);actionUsed=true;say(`Rally restores ${hero.hp-old} vitality.`);
+ updateInfo('Steady your resolve','You regain vitality. Enemies will press forward when you end your turn.');updateHud();draw();
+}
+function endTurn(){
+ if(gameOver)return;
+ // Enemies move/attack in sequence
+ for(const e of [...enemies]){
+  if(Math.abs(e.x-hero.x)+Math.abs(e.y-hero.y)<=1){
+   const damage=Math.max(4,e.atk-hero.armor+Math.floor(Math.random()*5));hero.hp-=damage;say(`${e.name} hits you for ${damage}.`);
+  }else{
+   let options=dirs.map(([dx,dy])=>({x:e.x+dx,y:e.y+dy})).filter(p=>inside(p.x,p.y)&&!obstacles.has(`${p.x},${p.y}`)&&!(hero.x===p.x&&hero.y===p.y)&&!enemies.some(o=>o!==e&&o.x===p.x&&o.y===p.y));
+   options.sort((a,b)=>(Math.abs(a.x-hero.x)+Math.abs(a.y-hero.y))-(Math.abs(b.x-hero.x)+Math.abs(b.y-hero.y)));
+   if(options.length&&Math.abs(e.x-hero.x)+Math.abs(e.y-hero.y)>1){e.x=options[0].x;e.y=options[0].y}
+   if(Math.abs(e.x-hero.x)+Math.abs(e.y-hero.y)<=1){const damage=Math.max(4,e.atk-hero.armor+Math.floor(Math.random()*5));hero.hp-=damage;say(`${e.name} closes in and strikes for ${damage}.`)}
+  }
+  if(hero.hp<=0)break;
+ }
+ turn++;moveUsed=false;actionUsed=false;updateHud();draw();
+ if(hero.hp<=0){endGame(false);return}
+ say('Your turn. Reposition, strike, or rally.');updateInfo('The frontier shifts','Enemy turn complete. Study their positions and choose your next move.');
+}
+function endGame(win){
+ gameOver=true;updateHud();$('overlay').classList.add('show');$('endIcon').textContent=win?'🏆':'🩸';$('endTitle').textContent=win?'Frontier reclaimed':'The blade falls';$('endText').textContent=win?`All threats defeated. You earned ${score} renown. The frontier remembers your name.`:'Your vitality is spent. Learn their positions, use Rally wisely, and try again.';
+}
+$('waitBtn').addEventListener('click',endTurn);$('healBtn').addEventListener('click',rally);$('restart').addEventListener('click',reset);
+$('helpBtn').addEventListener('click',()=>{ $('overlay').classList.add('show');$('endIcon').textContent='📜';$('endTitle').textContent='How to play';$('endText').textContent='Tap a gold-highlighted adjacent tile to move. Tap an adjacent enemy to attack. Rally restores 18 vitality but uses your action. Press Wait to end the turn, letting enemies attack or advance. Defeat all three foes to win.';$('restart').textContent='BACK TO BATTLE';});
+canvas.addEventListener('pointerup',handleTap);
+window.addEventListener('resize',resize);
+window.addEventListener('keydown',e=>{if(e.key==='Escape')$('overlay').classList.remove('show');if(e.key.toLowerCase()==='r')reset();if(e.key===' '){e.preventDefault();endTurn()}});
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('installBtn').hidden=false});
+$('installBtn').addEventListener('click',async()=>{if(!installPrompt){say('Use your browser menu and choose Add to Home Screen.');return}installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$('installBtn').hidden=true});
+if('serviceWorker'in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+reset();
+})();
+</script>
+</body></html>
